@@ -39,6 +39,10 @@ export function activate(context: ExtensionContext) {
   const clientOptions: LanguageClientOptions = {
     // Register the server for plain text documents
     documentSelector: [{ scheme: "file", language: "plaintext" }],
+    diagnosticPullOptions: {
+      onSave: true,
+      onChange: true,
+    },
   };
 
   // Create the language client and start the client.
