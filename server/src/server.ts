@@ -12,6 +12,7 @@ import {
   TextDocumentSyncKind,
   InitializeResult,
   DocumentDiagnosticReportKind,
+  Position,
 } from "vscode-languageserver/node";
 
 import { TextDocument } from "vscode-languageserver-textdocument";
@@ -43,8 +44,25 @@ connection.onInitialize((params: InitializeParams) => {
 
 connection.languages.diagnostics.on((params) => {
   const textDocument = documents.get(params.textDocument.uri);
-  if (!textDocument)
-    return { kind: DocumentDiagnosticReportKind.Full, items: [] };
+  if (!textDocument) {
+    console.log("no synced document anymore");
+    return {
+      kind: DocumentDiagnosticReportKind.Full,
+      items: [
+        // Optional: uncomment this for an example of a diagnostic when not synced
+        // Ideally, if items is empty, the original diagnostics should clear
+        // {
+        //   severity: DiagnosticSeverity.Warning,
+        //   range: {
+        //     start: Position.create(0, 0),
+        //     end: Position.create(0, 1),
+        //   },
+        //   message: "NO SYNC DIAGNOSTIC",
+        //   source: "ex",
+        // },
+      ],
+    };
+  }
 
   const diagnostic: Diagnostic = {
     severity: DiagnosticSeverity.Warning,
