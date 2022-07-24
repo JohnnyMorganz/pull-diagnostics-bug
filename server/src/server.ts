@@ -30,7 +30,7 @@ connection.onInitialize((params: InitializeParams) => {
       textDocumentSync: TextDocumentSyncKind.Incremental,
       diagnosticProvider: {
         interFileDependencies: true,
-        workspaceDiagnostics: false,
+        workspaceDiagnostics: true,
       },
       workspace: {
         workspaceFolders: {
@@ -77,6 +77,12 @@ connection.languages.diagnostics.on((params) => {
   return {
     kind: DocumentDiagnosticReportKind.Full,
     items: [diagnostic],
+  };
+});
+
+connection.languages.diagnostics.onWorkspace(() => {
+  return {
+    items: [],
   };
 });
 
